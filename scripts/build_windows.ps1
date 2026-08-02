@@ -4,17 +4,21 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$python = Join-Path $PSScriptRoot ".venv\Scripts\python.exe"
+$root = (Resolve-Path (Join-Path $PSScriptRoot ".." )).Path
+$python = Join-Path $root ".venv\Scripts\python.exe"
 if (-not (Test-Path $python)) {
     $python = "python"
 }
+$spec = Join-Path $root "pie_face_windows.spec"
+$dist = Join-Path $root $DistPath
+$work = Join-Path $root $WorkPath
 
 & $python -m PyInstaller --noconfirm --clean `
-    --distpath $DistPath `
-    --workpath $WorkPath `
-    (Join-Path $PSScriptRoot "pie_face_windows.spec")
+    --distpath $dist `
+    --workpath $work `
+    $spec
 
-$exe = Join-Path $DistPath "PieFace.exe"
+$exe = Join-Path $dist "PieFace.exe"
 if (-not (Test-Path $exe)) {
     throw "Build completed without producing $exe"
 }
