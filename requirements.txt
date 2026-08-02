@@ -1,0 +1,5 @@
+opencv-python>=4.10
+numpy>=2.0
+PyQt5>=5.15
+platformdirs>=4.0
+PyInstaller>=6.0  # only needed when building the .app / .exe
